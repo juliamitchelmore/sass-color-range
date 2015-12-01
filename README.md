@@ -30,7 +30,7 @@ Call it in your SCSS via:
 
     .element
     {
-        \@include color-range($color, ($primary-text, $alternate-text[, $alternate-text2, ...]));
+        @include color-range($color, ($primary-text, $alternate-text[, $alternate-text2, ...]));
     }
 
 where `$primary-text` is the colour you would like your text to be and `$alternate-text` is an alternative colour for the text. Further alternate text colours can optionally be added.
@@ -41,7 +41,7 @@ Call it in your SCSS via:
 
     .element
     {
-        \@include color-range($color, ($primary-text, $alternate-text[, $alternate-text2, ...])[, $secondary-color]);
+        @include color-range($color, ($primary-text, $alternate-text[, $alternate-text2, ...])[, $secondary-color]);
     }
 
 where `$secondary-color` is an optional second input colour.
