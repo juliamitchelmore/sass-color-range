@@ -1,0 +1,20 @@
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//       Sass function to calculate a random colour within a range of an input colour
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+@function color_range($color)
+{
+    $hsl: ();
+    $hsl-list: hue($color), saturation($color), lightness($color);
+    $hsl-range: 30, 40, 30;
+
+    @for $i from 1 to 4
+    {
+        $random: random(nth($hsl-range, $i)); //make a random within the given range
+        $range: nth($hsl-range, $i) / 2; //set the range to be half of what it is
+
+        $hsl: append($hsl, (nth($hsl-list, $i) - $range + $random), comma); //create hsl list
+    }
+
+    @return hsl($hsl...);
+}

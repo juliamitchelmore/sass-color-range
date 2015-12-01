@@ -1,0 +1,60 @@
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//       Extension to colour range sass function to add contrasting text option
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//function to pick a better colour if primary option not contrasting enough
+//based on pick_best_color function by by voxpelli: https://gist.github.com/voxpelli/6304812 
+@function pick_better_color($base, $colors, $contrast-ratio: 3, $tolerance: 0)
+{
+    $contrast: color_contrast($base, nth($colors, 1));
+    $best: nth($colors, 1);
+
+    @if ($contrast < 3)
+    {
+        @for $i from 2 through length($colors)
+        {
+            $current_contrast: color_contrast($base, nth($colors, $i));
+            @if ($current_contrast - $contrast > $tolerance) {
+                $contrast: color_contrast($base, nth($colors, $i));
+                $best: nth($colors, $i);
+            }
+        }
+    }
+
+    @return $best;
+}
+
+/*mixin to: set a random background colour within a range
+            set the text colour to be a primary text colour, but
+            if the contrast is not high enough, use another text color from supplied options (any number)
+*/
+@mixin color-range($color, $text-colors)
+{
+    $output: color_range($color);
+    background: $output;
+    color: pick_better_color($output, $text-colors);
+}
+
+/*mixin to: set a random background colour within a range
+            randomly set a secondary background colour within a range. This can be defined by the user,
+            or the function will select a complimentary colour for you
+            set the text colour to be a primary text colour, but
+            if the contrast is not high enough, use another text color from supplied options (any number)
+*/
+@mixin color-range-complement($color, $text-colors, $secondary-color: complement($color))
+{
+    $colorrand: random(10);
+    $output: null;
+
+    @if ($colorrand > 5)
+    {
+        $output: color_range($color);
+    }
+    @else
+    {
+        $output: color_range($secondary-color);
+    }
+
+    background: $output;
+    color: pick_better_color($output, $text-colors);
+}
